@@ -109,8 +109,8 @@ class _UpdateNotePageState extends State<UpdateNotePage> {
             }
           },
           backgroundColor: Colors.yellow,
-          child: const Icon(Icons.save, color: Colors.black),
           shape: const CircleBorder(),
+          child: const Icon(Icons.save, color: Colors.black),
         ));
   }
 }
