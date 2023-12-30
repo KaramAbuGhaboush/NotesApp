@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:malak/add_note_dialog.dart';
-import 'package:malak/notes_sqdb.dart';
-import 'package:malak/temp_data_provider.dart';
-import 'package:malak/update_note_dialog.dart';
+import 'package:notes_app/notes_sqdb.dart';
+import 'package:notes_app/temp_data_provider.dart';
 import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
@@ -13,19 +11,13 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final List<Color> tileColors = [
-    const Color.fromARGB(255, 148, 255, 203),
-    const Color.fromARGB(255, 173, 126, 255),
-    const Color.fromARGB(255, 255, 175, 198),
-    Color.fromARGB(255, 231, 254, 168),
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white10,
       appBar: AppBar(
-        backgroundColor: Colors.yellow,
-        title: const Text("notes", style: TextStyle(color: Colors.black)),
+        leading: null,
+        title: const Text("All notes",
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
       ),
       body: Center(
           child: FutureBuilder(
@@ -38,15 +30,18 @@ class _MainPageState extends State<MainPage> {
               itemBuilder: (context, index) {
                 final note = notes[index];
                 return Card(
-                  color: tileColors[index % tileColors.length],
                   child: ListTile(
-                    title: Text(note['title']?.toString() ?? 'No Title'),
+                    title: Text(note['title']?.toString() ?? 'No Title',
+                        style: const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold)),
                     subtitle: Text(
                         maxLines: null,
-                        note['subtitle']?.toString() ?? 'No Subtitle',
-                        overflow: TextOverflow.ellipsis),
+                        "Last edited on ${note['date']}",
+                        overflow: TextOverflow.ellipsis,
+                        style:
+                            const TextStyle(fontSize: 12, color: Colors.grey)),
                     trailing: IconButton(
-                      icon: const Icon(Icons.delete),
+                      icon: const Icon(Icons.delete, color: Colors.grey),
                       onPressed: () {
                         NotesSqflite.delete(note['id'] as int);
                         setState(() {});
@@ -56,12 +51,7 @@ class _MainPageState extends State<MainPage> {
                       Provider.of<TempDataProvider>(context, listen: false)
                           .setId(note['id'] as int);
                       setState(() {});
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return const UpdateNoteDialog();
-                        },
-                      ).then((value) => setState(() {}));
+                      Navigator.pushNamed(context, '/update_note_page');
                     },
                   ),
                 );
@@ -76,13 +66,9 @@ class _MainPageState extends State<MainPage> {
       )),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.yellow,
+        shape: const CircleBorder(),
         onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return const AddNoteDialog();
-            },
-          ).then((value) => setState(() {}));
+          Navigator.pushNamed(context, '/add_note_page');
         },
         child: const Icon(Icons.add, color: Colors.black),
       ),
