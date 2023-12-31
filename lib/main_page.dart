@@ -15,6 +15,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // hides leading widget
         leading: null,
         title: const Text("All notes",
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),

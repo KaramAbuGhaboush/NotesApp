@@ -6,7 +6,7 @@ class NotesSqflite {
   static Future<Database> open() async {
     final dbPath = await getDatabasesPath();
     final db = await openDatabase(
-      join(dbPath, 'notesr.db'),
+      join(dbPath, 'notes.db'),
       onCreate: (db, version) {
         return db.execute(
           '''
