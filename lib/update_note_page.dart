@@ -69,7 +69,6 @@ class _UpdateNotePageState extends State<UpdateNotePage> {
                       child: QuillEditor.basic(
                         configurations: QuillEditorConfigurations(
                           controller: _controller,
-                          readOnly: false,
                           sharedConfigurations: const QuillSharedConfigurations(
                             locale: Locale('ar'),
                           ),
